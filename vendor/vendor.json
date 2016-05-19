@@ -169,8 +169,10 @@
 			"revision": "8929fe90cee4b2cb9deb468b51fb34eba64d1bf0"
 		},
 		{
+			"checksumSHA1": "sMSzsauxGIlDouR+uzfTE6sj7g8=",
 			"path": "github.com/fsouza/go-dockerclient",
-			"revision": "7c07ffce0f7e14a4da49ce92a2842d4e87be1c1e"
+			"revision": "c0253c60dbff5f09f633273afe25e6f078e90732",
+			"revisionTime": "2016-05-17T12:40:30Z"
 		},
 		{
 			"path": "github.com/fsouza/go-dockerclient/external/github.com/Sirupsen/logrus",
