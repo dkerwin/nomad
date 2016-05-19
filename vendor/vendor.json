@@ -160,6 +160,36 @@
 			"revision": "5215b55f46b2b919f50a1df0eaa5886afe4e3b3d"
 		},
 		{
+			"checksumSHA1": "mswe275heIklTKj7mPTnVzAFoMk=",
+			"path": "github.com/docker/docker/opts",
+			"revision": "376c15bbaa05d1458d9a0238b8854af5de2738a1",
+			"revisionTime": "2016-05-19T19:04:52Z"
+		},
+		{
+			"checksumSHA1": "OShlvanyvyee8I0/kdmLuOEOF5w=",
+			"path": "github.com/docker/docker/pkg/archive",
+			"revision": "376c15bbaa05d1458d9a0238b8854af5de2738a1",
+			"revisionTime": "2016-05-19T19:04:52Z"
+		},
+		{
+			"checksumSHA1": "gCGFEo3gBzzkfYjoTU/ICbUiK48=",
+			"path": "github.com/docker/docker/pkg/fileutils",
+			"revision": "376c15bbaa05d1458d9a0238b8854af5de2738a1",
+			"revisionTime": "2016-05-19T19:04:52Z"
+		},
+		{
+			"checksumSHA1": "p6Ud4Yf1ywWy20YxXF1RU4yhTio=",
+			"path": "github.com/docker/docker/pkg/homedir",
+			"revision": "376c15bbaa05d1458d9a0238b8854af5de2738a1",
+			"revisionTime": "2016-05-19T19:04:52Z"
+		},
+		{
+			"checksumSHA1": "YDYbS5U2mDwfcOUJ6M09cP6Bubg=",
+			"path": "github.com/docker/docker/pkg/stdcopy",
+			"revision": "376c15bbaa05d1458d9a0238b8854af5de2738a1",
+			"revisionTime": "2016-05-19T19:04:52Z"
+		},
+		{
 			"comment": "v0.1.0-23-g5d2041e",
 			"path": "github.com/docker/go-units",
 			"revision": "5d2041e26a699eaca682e2ea41c8f891e1060444"
@@ -530,6 +560,12 @@
 			"revision": "89ab7f2ccc1e45ddf6485eaa802c35dcf321dfc8"
 		},
 		{
+			"checksumSHA1": "3AoPMXlmVq2+iWMpsdJZkcUKHB8=",
+			"path": "github.com/opencontainers/runc/libcontainer/user",
+			"revision": "e574996911506b0598903e192d1c58b35e55428b",
+			"revisionTime": "2016-05-19T20:42:26Z"
+		},
+		{
 			"comment": "v0.0.9-108-g89ab7f2",
 			"path": "github.com/opencontainers/runc/libcontainer/utils",
 			"revision": "89ab7f2ccc1e45ddf6485eaa802c35dcf321dfc8"
@@ -596,6 +632,12 @@
 			"path": "github.com/ugorji/go/codec/codecgen",
 			"revision": "a396ed22fc049df733440d90efe17475e3929ccb",
 			"revisionTime": "2016-03-28T06:07:40Z"
+		},
+		{
+			"checksumSHA1": "9jjO5GjLa0XF/nfWihF02RoH4qc=",
+			"path": "golang.org/x/net/context",
+			"revision": "5916dcb167ed985a5b9e6871fbfd74848a4c170b",
+			"revisionTime": "2016-05-18T23:19:24Z"
 		},
 		{
 			"path": "golang.org/x/sys/unix",
