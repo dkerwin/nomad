@@ -38,8 +38,8 @@ type Agent struct {
 	// consulSyncer registers the Nomad agent with the Consul Agent
 	consulSyncer *consul.Syncer
 
-	serverHTTPAddr string
-	clientHTTPAddr string
+	serverHttpAddr string
+	clientHttpAddr string
 
 	server *nomad.Server
 	client *client.Client
@@ -77,7 +77,7 @@ func NewAgent(config *Config, logOutput io.Writer) (*Agent, error) {
 		return nil, fmt.Errorf("must have at least client or server mode enabled")
 	}
 	if a.config.Consul.AutoRegister {
-		if err := a.syncAgentServicesWithConsul(a.serverHTTPAddr, a.clientHTTPAddr); err != nil {
+		if err := a.syncAgentServicesWithConsul(); err != nil {
 			a.logger.Printf("[ERR] agent: unable to sync agent services with consul: %v", err)
 		}
 		if a.consulSyncer != nil {
@@ -167,9 +167,9 @@ func (a *Agent) serverConfig() (*nomad.Config, error) {
 	if port := a.config.Ports.Serf; port != 0 {
 		conf.SerfConfig.MemberlistConfig.BindPort = port
 	}
-	a.serverHTTPAddr = fmt.Sprintf("%v:%v", a.config.Addresses.HTTP, a.config.Ports.HTTP)
+	a.serverHttpAddr = fmt.Sprintf("%v:%v", a.config.Addresses.HTTP, a.config.Ports.HTTP)
 	if a.config.AdvertiseAddrs.HTTP != "" {
-		a.serverHTTPAddr = a.config.AdvertiseAddrs.HTTP
+		a.serverHttpAddr = a.config.AdvertiseAddrs.HTTP
 	}
 
 	if gcThreshold := a.config.Server.NodeGCThreshold; gcThreshold != "" {
@@ -257,7 +257,7 @@ func (a *Agent) clientConfig() (*clientconfig.Config, error) {
 		httpAddr = fmt.Sprintf("%s:%d", addr.IP.String(), addr.Port)
 	}
 	conf.Node.HTTPAddr = httpAddr
-	a.clientHTTPAddr = httpAddr
+	a.clientHttpAddr = httpAddr
 
 	// Reserve resources on the node.
 	r := conf.Node.Reserved
@@ -510,34 +510,26 @@ func (a *Agent) setupConsulSyncer(shutdownCh types.ShutdownChannel) (err error) 
 
 // syncAgentServicesWithConsul syncs this Nomad Agent's services with Consul
 // when running in either Client or Server mode.
-func (a *Agent) syncAgentServicesWithConsul(clientHttpAddr string, serverHttpAddr string) error {
-	cs, err := consul.NewSyncer(a.consulConfig, a.logger)
-	if err != nil {
-		return err
-	}
-	a.consulSyncer = cs
+func (a *Agent) syncAgentServicesWithConsul() error {
 	var services []*structs.Service
 	if a.client != nil && a.config.Consul.ClientServiceName != "" {
-		if err != nil {
-			return err
-		}
 		clientService := &structs.Service{
 			Name:      a.config.Consul.ClientServiceName,
-			PortLabel: clientHttpAddr,
+			PortLabel: a.clientHttpAddr,
 		}
 		services = append(services, clientService)
-		cs.SetServiceIdentifier("agent-client")
+		a.consulSyncer.SetServiceIdentifier("agent-client")
 	}
 	if a.server != nil && a.config.Consul.ServerServiceName != "" {
 		serverService := &structs.Service{
 			Name:      a.config.Consul.ServerServiceName,
-			PortLabel: serverHttpAddr,
+			PortLabel: a.serverHttpAddr,
 		}
 		services = append(services, serverService)
-		cs.SetServiceIdentifier("agent-server")
+		a.consulSyncer.SetServiceIdentifier("agent-server")
 	}
 
-	cs.SetAddrFinder(func(portLabel string) (string, int) {
+	a.consulSyncer.SetAddrFinder(func(portLabel string) (string, int) {
 		host, port, err := net.SplitHostPort(portLabel)
 		if err != nil {
 			return "", 0
@@ -555,5 +547,5 @@ func (a *Agent) syncAgentServicesWithConsul(clientHttpAddr string, serverHttpAdd
 		return host, p
 	})
 
-	return cs.SyncServices(services)
+	return a.consulSyncer.SyncServices(services)
 }
